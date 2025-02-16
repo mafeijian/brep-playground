@@ -19,6 +19,7 @@ git push -uf origin master
 
 ```javascript
     const material = new MeshStandardMaterial({ color: 0xffffff });
+    const nameEngine = new NameEngine();
 
     const radius = 250 * Math.sqrt(2);
     const a = new Point3d(1000, 1000, 0);
@@ -28,13 +29,14 @@ git push -uf origin master
     const up = new Vector3d(0, 0, 500);
 
     const normal = new Vector3d().copy(up.as());
-    const ab = ArcSegment.createByEndsRadius(this.doc.nameEngine, normal, a, b, radius);
-    const bc = ArcSegment.createByEndsRadius(this.doc.nameEngine, normal, b, c, radius);
-    const cd = ArcSegment.createByEndsRadius(this.doc.nameEngine, normal, c, d, radius);
-    const da = ArcSegment.createByEndsRadius(this.doc.nameEngine, normal, d, a, radius);
+    const ab = ArcSegment.createByEndsRadius(nameEngine, normal, a, b, radius);
+    const bc = ArcSegment.createByEndsRadius(nameEngine, normal, b, c, radius);
+    const cd = ArcSegment.createByEndsRadius(nameEngine, normal, c, d, radius);
+    const da = ArcSegment.createByEndsRadius(nameEngine, normal, d, a, radius);
     const profile = CurveLoop.construct([ab, bc, cd, da]);
 
-    const geoms6 = GeometryHelper.getGeometry(Extrusion.construct(profile, up));
+    const shell = Extrusion.construct(profile, up);
+    const geoms6 = GeometryHelper.getGeometry(shell);
     const meshes6 = geoms6.map(geom => new Mesh(geom, material));
     scene.add(...meshes6);
 ```
