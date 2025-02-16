@@ -151,7 +151,8 @@ class BrepPlayer extends EventDispatcher {
 
   // eslint-disable-next-line class-methods-use-this
   getMesh(shell: Shell, material: Material) {
-    return GeometryHelper.getGeometry(shell).map(geom => new Mesh(geom, material));
+    const scale = 0.5 * 1e-3; // 0.5 * 0.5 ㎡
+    return GeometryHelper.getGeometry(shell, [scale, scale]).map(geom => new Mesh(geom, material));
   }
 
   // eslint-disable-next-line class-methods-use-this
